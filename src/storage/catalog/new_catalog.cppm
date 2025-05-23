@@ -265,7 +265,7 @@ private:
     HashMap<String, SharedPtr<SegmentUpdateTS>> segment_update_ts_map_{};
 
 public:
-    void GetCleanedMeta(TxnTimeStamp ts, Vector<UniquePtr<MetaKey>> &metas, KVInstance *kv_instance);
+    void GetCleanedMeta(TxnTimeStamp ts, Vector<UniquePtr<MetaKey>> &metas, Vector<Vector<String>> &keyss, KVInstance *kv_instance);
 
     // Profile related methods
     void SetProfile(bool flag) { enable_profile_ = flag; }

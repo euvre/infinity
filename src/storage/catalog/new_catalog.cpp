@@ -1411,7 +1411,7 @@ Status NewCatalog::DropSegmentUpdateTSByKey(const String &segment_update_ts_key)
     return Status::OK();
 }
 
-void NewCatalog::GetCleanedMeta(TxnTimeStamp ts, Vector<UniquePtr<MetaKey>> &metas, KVInstance *kv_instance) {
+void NewCatalog::GetCleanedMeta(TxnTimeStamp ts, Vector<UniquePtr<MetaKey>> &metas, Vector<Vector<String>> &keyss, KVInstance *kv_instance) {
     auto GetCleanedMetaImpl = [&](const Vector<String> &keys) {
         const String &type_str = keys[1];
         const String &meta_str = keys[2];
@@ -1473,11 +1473,12 @@ void NewCatalog::GetCleanedMeta(TxnTimeStamp ts, Vector<UniquePtr<MetaKey>> &met
         auto keys = infinity::Partition(drop_key, '|');
         GetCleanedMetaImpl(keys);
 
-        // delete from kv_instance
-        Status status = kv_instance->Delete(drop_key);
-        if (!status.ok()) {
-            UnrecoverableError(fmt::format("Remove clean meta failed. {}", *status.msg_));
-        }
+        keyss.emplace_back(std::move(keys));
+        // // delete from kv_instance
+        // Status status = kv_instance->Delete(drop_key);
+        // if (!status.ok()) {
+        //     UnrecoverableError(fmt::format("Remove clean meta failed. {}", *status.msg_));
+        // }
     }
 }
 

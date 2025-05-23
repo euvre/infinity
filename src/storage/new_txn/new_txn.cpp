@@ -4104,7 +4104,8 @@ Status NewTxn::Cleanup(TxnTimeStamp ts, KVInstance *kv_instance) {
     BufferManager *buffer_mgr = InfinityContext::instance().storage()->buffer_manager();
 
     Vector<UniquePtr<MetaKey>> metas;
-    new_catalog->GetCleanedMeta(ts, metas, kv_instance);
+    Vector<Vector<String>> keyss;
+    new_catalog->GetCleanedMeta(ts, metas, keyss, kv_instance);
 
     for (auto &meta : metas) {
         switch (meta->type_) {
@@ -4199,6 +4200,13 @@ Status NewTxn::Cleanup(TxnTimeStamp ts, KVInstance *kv_instance) {
     }
 
     buffer_mgr->RemoveClean();
+    for (const auto &keys : keyss) {
+        // delete from kv_instance
+        Status status = kv_instance->Delete(keys);
+        if (!status.ok()) {
+            UnrecoverableError(fmt::format("Remove clean meta failed. {}", *status.msg_));
+        }
+    }
     return Status::OK();
 }
 
