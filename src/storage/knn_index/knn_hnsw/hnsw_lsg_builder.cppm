@@ -14,7 +14,6 @@
 
 export module infinity_core:hnsw_lsg_builder;
 
-import std;
 import std.compat;
 
 import column_def;

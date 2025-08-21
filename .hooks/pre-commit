@@ -12,7 +12,7 @@ def apply_code_style():
                              x.endswith(b'.h') or
                              x.endswith(b'.hpp') or
                              x.endswith(b'.cpp') or
-                             x.endswith(b'.cppm'),files)
+                             x.endswith(b'.cppm'), files)
     for f in files:
         print("Apply code style to: " + str(f))
         subprocess.check_output(['clang-format-20', '-i', f])

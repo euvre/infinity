@@ -24,7 +24,6 @@ import :kv_utility;
 import :default_values;
 import :new_txn;
 
-import std;
 import std.compat;
 import third_party;
 

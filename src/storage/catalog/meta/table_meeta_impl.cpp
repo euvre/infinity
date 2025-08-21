@@ -35,7 +35,6 @@ import :kv_utility;
 import :column_index_reader;
 import :new_txn;
 
-import std;
 import std.compat;
 import third_party;
 

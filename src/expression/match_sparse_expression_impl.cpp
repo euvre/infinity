@@ -28,7 +28,6 @@ import :bound_cast_func;
 import :value;
 import :value_expression;
 
-import std;
 import std.compat;
 import third_party;
 
@@ -88,14 +87,18 @@ DataType MatchSparseExpression::Type() const {
             return DataType(LogicalType::kDouble);
         }
         case EmbeddingDataType::kElemUInt8:
+            [[fallthrough]];
         case EmbeddingDataType::kElemInt8:
+            [[fallthrough]];
         case EmbeddingDataType::kElemInt16:
+            [[fallthrough]];
         case EmbeddingDataType::kElemInt32:
+            [[fallthrough]];
         case EmbeddingDataType::kElemInt64: {
             return DataType(LogicalType::kFloat);
         }
         default: {
-            UnrecoverableError("Unimpelmented.");
+            UnrecoverableError("Unimplemented.");
         }
     }
     return DataType(LogicalType::kInvalid);

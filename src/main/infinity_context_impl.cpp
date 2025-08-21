@@ -23,7 +23,6 @@ import :resource_manager;
 import :session_manager;
 import :variables;
 
-import std;
 import std.compat;
 
 import admin_statement;

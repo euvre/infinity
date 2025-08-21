@@ -32,7 +32,6 @@ import :merge_knn;
 import :infinity_context;
 import :logger;
 
-import std;
 import std.compat;
 import third_party;
 

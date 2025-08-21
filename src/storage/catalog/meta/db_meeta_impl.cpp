@@ -24,7 +24,6 @@ import :new_txn;
 import :utility;
 import :kv_utility;
 
-import std;
 import std.compat;
 import third_party;
 
