@@ -22,7 +22,6 @@ import std;
 
 namespace infinity {
 
-// class BufferObj;
 struct BufferObjectInfo;
 class KVInstance;
 class PersistenceManager;
@@ -129,11 +128,11 @@ private:
     std::shared_ptr<std::string> temp_dir_;
     const u64 memory_limit_{};
     PersistenceManager *persistence_manager_;
-    std::atomic<u64> current_memory_size_{};
+    std::atomic_uint64_t current_memory_size_{};
 
     std::mutex w_locker_{};
     std::unordered_map<std::string, std::unique_ptr<BufferObj>> buffer_map_{};
-    std::atomic<u32> buffer_id_{};
+    std::atomic_uint32_t buffer_id_{};
 
     std::mutex gc_locker_{};
     std::vector<LRUCache> lru_caches_{};
@@ -146,8 +145,8 @@ private:
     std::unordered_set<BufferObj *> temp_set_;
     std::unordered_set<BufferObj *> clean_temp_set_;
 
-    std::atomic<u64> total_request_count_{0};
-    std::atomic<u64> cache_miss_count_{0};
+    std::atomic_uint64_t total_request_count_{0};
+    std::atomic_uint64_t cache_miss_count_{0};
 };
 
 } // namespace infinity
