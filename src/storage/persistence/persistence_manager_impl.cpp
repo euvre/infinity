@@ -154,7 +154,7 @@ PersistWriteResult PersistenceManager::Persist(std::string_view file_path, std::
             UnrecoverableError(fmt::format("Failed to rename {} to {}", src_fp.string(), dst_fp.string()));
         }
         ObjAddr obj_addr(obj_key, 0, src_size);
-        std::lock_guard<std::mutex> lock(mtx_);
+        std::lock_guard lock(mtx_);
         object_stats_->PutNew(obj_key, std::make_shared<ObjStat>(src_size, 1, 0));
         LOG_TRACE(fmt::format("Persist added dedicated object {}", obj_key));
 
@@ -171,7 +171,7 @@ PersistWriteResult PersistenceManager::Persist(std::string_view file_path, std::
         result.persist_keys_.push_back(obj_key);
         result.obj_addr_ = obj_addr;
     } else {
-        std::lock_guard<std::mutex> lock(mtx_);
+        std::lock_guard lock(mtx_);
         if (static_cast<int>(src_size) >= CurrentObjRoomNoLock()) {
             CurrentObjFinalizeNoLock(result.persist_keys_);
         }

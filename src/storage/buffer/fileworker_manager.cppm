@@ -71,6 +71,22 @@ public:
         }
     }
 
+    void Evict(std::string_view path) {
+        std::lock_guard l(mutex_);
+        auto &data = path_data_map_[path.data()];
+        auto &iter = path_data_map_[path.data()];
+
+        auto &ref_cnt = memory_map_[path.data()];
+        LOG_DEBUG(fmt::format("Evicting: {}, space: {}byte", path, ref_cnt));
+        current_mem_usage_ -= memory_map_[path.data()];
+        payloads_.erase(iter);
+        path_data_map_.erase(path.data());
+        data_path_map_.erase(*data);
+        memory_map_.erase(path.data());
+
+        delete *data;
+    }
+
 private:
     void Evict(size_t request_space) {
         for (auto rev_iter = payloads_.rbegin(); rev_iter != payloads_.rend(); ++rev_iter) {
